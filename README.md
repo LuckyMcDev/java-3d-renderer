@@ -3,4 +3,4 @@
 
 ## How to use:
 Open Main.Bat and select the option to open the project.
-\nThen wait for it to compile and open.
+Then wait for it to compile and open.
