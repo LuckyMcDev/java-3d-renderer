@@ -133,7 +133,7 @@ public class Main {
                 int deltaY = e.getY() - lastY;
 
                 // Update the rotation angles based on mouse movement
-                rotationX += Math.toRadians(deltaX * 0.5);  // Adjust sensitivity here
+                rotationX -= Math.toRadians(deltaX * 0.5);  // Adjust sensitivity here
                 rotationY -= Math.toRadians(deltaY * 0.5);  // Adjust sensitivity here
 
                 // Keep the pitch rotation within bounds
