@@ -19,7 +19,9 @@ set /p choice="Please choose an option (1 or 2): "
 if "%choice%"=="1" (
     echo Opening Project...
     :: Add your project-opening command here
-    start "" "start_project.bat"
+    cd src/
+    javac Viewer.java
+    java Viewer
 ) else if "%choice%"=="2" (
     echo Exiting...
     exit
