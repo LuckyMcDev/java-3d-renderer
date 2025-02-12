@@ -20,8 +20,8 @@ if "%choice%"=="1" (
     echo Opening Project...
     :: Add your project-opening command here
     cd src/
-    javac -d ../generated Viewer.java
-    java -cp generated Viewer
+    javac -d Main.java
+    java -cp ../generated Main
 ) else if "%choice%"=="2" (
     echo Exiting...
     exit
