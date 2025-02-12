@@ -3,7 +3,7 @@ cls
 
 :: Display banner
 echo ================================
-echo       Welcome to My Project      
+echo       3D Renderer    
 echo ================================
 echo.
 
@@ -20,8 +20,8 @@ if "%choice%"=="1" (
     echo Opening Project...
     :: Add your project-opening command here
     cd src/
-    javac Viewer.java
-    java Viewer
+    javac -d ../generated Viewer.java
+    java -cp generated Viewer
 ) else if "%choice%"=="2" (
     echo Exiting...
     exit
