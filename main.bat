@@ -1,106 +1,66 @@
 @echo off
-setlocal enabledelayedexpansion
+cls
 
-:: Set log file name and clear it at the start of the build.
-set LOGFILE=build.log
-if exist %LOGFILE% del %LOGFILE%
+:: Display banner
+echo ================================
+echo       3D Renderer    
+echo ================================
+echo.
 
-call :log "Build started."
+:: Display menu options
+echo 1. Build Project
+echo 2. Create Jar
+echo 3. Clean Build Artifacts
+echo 4. Open Project
+echo 5. Exit
+echo.
 
-:: Check if build.properties exists
-if not exist build.properties (
-  call :log "build.properties not found!"
-  echo build.properties not found!
-  exit /b 1
-)
+:: Prompt for choice
+set /p choice="Please choose an option (1-5): "
 
-:: Read properties from build.properties and set environment variables
-for /f "usebackq tokens=1,2 delims==" %%A in ("build.properties") do (
-  set "%%A=%%B"
-)
-call :log "Loaded build.properties."
-echo Using Java version: %java.version%
-echo Main class: %main.class%
-echo Dependencies: %dependencies%
-
-:: Construct the classpath: include dependencies if specified
-if defined dependencies (
-  set CP=%dependencies%;bin
+:: Process user choice
+if "%choice%"=="1" (
+    echo.
+    echo Building Project...
+    if not exist bin mkdir bin
+    :: Recursively list all Java files in src and compile them
+    dir /b /s src\*.java > sources.txt
+    javac -d bin @sources.txt
+    if errorlevel 1 (
+        echo Build failed.
+        pause
+        exit /b 1
+    ) else (
+        echo Build succeeded.
+    )
+) else if "%choice%"=="2" (
+    echo.
+    echo Creating Jar...
+    jar cvfe app.jar Main -C bin .
+    if errorlevel 1 (
+        echo Jar packaging failed.
+        pause
+        exit /b 1
+    ) else (
+        echo Jar packaging succeeded.
+    )
+) else if "%choice%"=="3" (
+    echo.
+    echo Cleaning Build Artifacts...
+    if exist bin rmdir /s /q bin
+    if exist app.jar del app.jar
+    echo Clean complete.
+) else if "%choice%"=="4" (
+    echo.
+    echo Opening Project...
+    java -cp bin Main
+) else if "%choice%"=="5" (
+    echo.
+    echo Exiting...
+    exit /b 0
 ) else (
-  set CP=bin
-)
-call :log "Classpath set to: %CP%."
-
-:: Function to compile source files recursively
-:compile
-call :log "Compiling Java sources..."
-echo Compiling Java sources...
-if not exist bin mkdir bin
-:: Create a list of Java source files (recursively)
-dir /b /s src\*.java > sources.txt
-javac %javac.options% -cp "%CP%" -source %java.version% -target %java.version% -d bin -sourcepath src -encoding UTF-8 @sources.txt
-if errorlevel 1 (
-  call :log "Compilation failed."
-  echo Compilation failed.
-  exit /b 1
-)
-call :log "Compilation succeeded."
-echo Compilation succeeded.
-goto :eof
-
-:: Function to package compiled classes into a JAR file
-:package
-call :log "Packaging JAR file: %jar.name%."
-echo Creating JAR file: %jar.name%
-jar cvfe %jar.name% %main.class% -C bin .
-if errorlevel 1 (
-  call :log "JAR packaging failed."
-  echo JAR packaging failed.
-  exit /b 1
-)
-call :log "JAR packaging succeeded."
-echo JAR packaging succeeded.
-goto :eof
-
-:: Function to clean the build
-:clean
-call :log "Cleaning build artifacts..."
-echo Cleaning build artifacts...
-if exist bin rmdir /s /q bin
-if exist %jar.name% del %jar.name%
-call :log "Clean complete."
-echo Clean complete.
-goto :eof
-
-:: Check command-line arguments for build targets
-if "%1"=="clean" (
-  call :clean
-  goto :end
-) else if "%1"=="package" (
-  call :compile
-  call :package
-  goto :end
-) else if "%1"=="run" (
-  call :compile
-  call :log "Running %main.class%..."
-  echo Running %main.class%...
-  java -cp "%CP%" %main.class%
-  goto :end
-) else (
-  :: Default action: compile and run
-  call :compile
-  call :log "Running %main.class%..."
-  echo Running %main.class%...
-  java -cp "%CP%" %main.class%
+    echo.
+    echo Invalid choice. Please run the script again and select a valid option.
 )
 
-:end
-call :log "Build finished."
 pause
-exit /b
-
-:: Log function: Logs messages with a timestamp to the log file.
-:log
-set LOGMSG=%*
-echo %date% %time% - %LOGMSG% >> %LOGFILE%
-goto :eof
