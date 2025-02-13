@@ -3,12 +3,11 @@ cls
 
 :: Set the path to the JavaFX SDK
 set "JAVAFX_LIB=C:\Users\Fynn\Projects\tiny-java-3d-render\lib\javafx-sdk-17.0.14\lib"
+set "IMGUI_LIB=C:\Users\Fynn\Projects\tiny-java-3d-render\lib\dear_imgui\java-libraries"
 
 :menu
 cls
-echo ================================
-echo       3D Renderer    
-echo ================================
+echo ======Configuration Menu======
 echo.
 echo :build Build Project
 echo :jar   Create Jar
@@ -56,7 +55,7 @@ if "%choice%"==":build" (
     echo Clean complete.
     pause
     goto menu
-) else if "%choice%"==":run" (
+)else if "%choice%"==":run" (
     echo.
     echo Building Project...
     if not exist bin mkdir bin
@@ -70,7 +69,7 @@ if "%choice%"==":build" (
         echo Build succeeded.
         echo.
         echo Running Project...
-        java --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.fxml -cp bin Main
+        java --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.fxml -cp bin;%IMGUI_LIB%\* Main
         pause
     )
     goto menu
