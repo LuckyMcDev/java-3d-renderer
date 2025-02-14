@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@SuppressWarnings("unused")
 public class Main extends Application {
     // Rotation angles in radians and the sphere color
     private double rotationX = 0;
@@ -109,8 +110,8 @@ public class Main extends Application {
             lastY = e.getY();
         });
         canvas.setOnMouseDragged((MouseEvent e) -> {
-            double deltaX = e.getX() - lastX;
-            double deltaY = e.getY() - lastY;
+            double deltaX = - (e.getX() - lastX);
+            double deltaY = - (e.getY() - lastY);
             rotationX -= Math.toRadians(deltaX * 0.5);  // adjust sensitivity if needed
             rotationY -= Math.toRadians(deltaY * 0.5);
             // constrain pitch rotation

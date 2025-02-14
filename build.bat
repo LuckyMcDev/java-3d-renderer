@@ -1,85 +1,201 @@
 @echo off
-cls
+setlocal enabledelayedexpansion
 
-:: Set the path to the JavaFX SDK
+:: =======================================================
+:: Configuration Variables
+:: =======================================================
 set "JAVAFX_LIB=C:\Users\Fynn\Projects\tiny-java-3d-render\lib\javafx-sdk-17.0.14\lib"
 set "IMGUI_LIB=C:\Users\Fynn\Projects\tiny-java-3d-render\lib\dear_imgui\java-libraries"
+set "MAIN_CLASS=Main"
+set "APP_JAR=app.jar"
+set "SRC_DIR=src"
+set "BIN_DIR=bin"
+set "BUILD_TIMESTAMP=build.timestamp"
+set "ERROR_LOG=error.log"
 
+:: Default build mode (debug by default)
+set "BUILD_MODE=debug"
+set "JAVAC_OPTIONS=-g"
+
+:: =======================================================
+:: Build Mode Selection
+:: =======================================================
+:chooseBuildMode
+cls
+echo =====================================
+echo           Choose Build Mode
+echo =====================================
+echo   1. Debug (default, includes debug symbols)
+echo   2. Release (optimized, no debug symbols)
+echo =====================================
+set /p mode="Enter 1 or 2: "
+if "%mode%"=="2" (
+    set "BUILD_MODE=release"
+    set "JAVAC_OPTIONS="
+) else if "%mode%"=="1" (
+    set "BUILD_MODE=debug"
+    set "JAVAC_OPTIONS=-g"
+) else (
+    echo Invalid choice, defaulting to Debug mode.
+    set "BUILD_MODE=debug"
+    set "JAVAC_OPTIONS=-g"
+)
+goto menu
+
+:: =======================================================
+:: Main Menu Loop
+:: =======================================================
 :menu
 cls
-echo ======Configuration Menu======
+echo =====================================
+echo          3D Renderer - Menu
+echo =====================================
 echo.
-echo :build Build Project
-echo :jar   Create Jar
-echo :clean Clean Build Artifacts
-echo :run   Run Project
-echo :exit  Exit
+echo :build   Build Project (Incremental)
+echo :jar     Create Jar (with manifest for dependencies)
+echo :clean   Clean Build Artifacts
+echo :run     Run Project
+echo :help    Show Help
+echo :exit    Exit
 echo.
+set /p choice="Please choose an option (:build, :jar, :clean, :run, :help, :exit): "
 
-:: Prompt for choice
-set /p choice="Please choose an option (:build, :jar, :clean, :run, :exit): "
-
-:: Process user choice
 if "%choice%"==":build" (
-    echo.
+    call :timestamp "Starting Build"
+    :: Check if source directory exists
+    if not exist "%SRC_DIR%" (
+        echo Source directory "%SRC_DIR%" not found!
+        echo [%time%] Error: Source directory not found >> %ERROR_LOG%
+        pause
+        goto menu
+    )
+    if not exist "%BIN_DIR%" mkdir "%BIN_DIR%"
+    
+    :: Incremental Build Check: If BUILD_TIMESTAMP exists, compile only if any .java file is newer
+    if exist "%BUILD_TIMESTAMP%" (
+        for %%T in ("%BUILD_TIMESTAMP%") do set "BT=%%~tT"
+        set "NEED_BUILD=0"
+        for /r "%SRC_DIR%" %%F in (*.java) do (
+            if "%%~tF" GTR "%BT%" (
+                set "NEED_BUILD=1"
+                goto :found_newer
+            )
+        )
+        :found_newer
+        if "%NEED_BUILD%"=="0" (
+            echo No changes detected. Skipping compilation.
+            call :timestamp "Build Skipped (Up-to-date)"
+            pause
+            goto menu
+        )
+    )
     echo Building Project...
-    if not exist bin mkdir bin
-    :: Recursively list all Java files in src and compile them
-    dir /b /s src\*.java > sources.txt
-    javac --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.fxml -d bin @sources.txt
+    dir /b /s "%SRC_DIR%\*.java" > sources.txt
+    javac %JAVAC_OPTIONS% --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.fxml -d "%BIN_DIR%" @sources.txt 2>> %ERROR_LOG%
     if errorlevel 1 (
-        echo Build failed.
+        echo Build failed. Check %ERROR_LOG% for details.
+        call :timestamp "Build Failed"
         pause
     ) else (
         echo Build succeeded.
+        call :timestamp "Build Succeeded"
+        rem Update build timestamp
+        echo. > "%BUILD_TIMESTAMP%"
         pause
     )
     goto menu
+
 ) else if "%choice%"==":jar" (
-    echo.
+    call :timestamp "Packaging Jar Started"
     echo Creating Jar...
-    jar cvfe app.jar Main -C bin .
+    rem Create a temporary manifest file with Main-Class and a basic Class-Path (adjust if you want to include dependencies)
+    echo Main-Class: %MAIN_CLASS% > manifest.txt
+    echo Class-Path: . >> manifest.txt
+    jar cvfm %APP_JAR% manifest.txt -C "%BIN_DIR%" . 2>> %ERROR_LOG%
     if errorlevel 1 (
-        echo Jar packaging failed.
+        echo Jar packaging failed. Check %ERROR_LOG% for details.
+        call :timestamp "Jar Packaging Failed"
         pause
     ) else (
         echo Jar packaging succeeded.
+        call :timestamp "Jar Packaging Succeeded"
         pause
     )
     goto menu
+
 ) else if "%choice%"==":clean" (
-    echo.
+    call :timestamp "Clean Started"
     echo Cleaning Build Artifacts...
-    if exist bin rmdir /s /q bin
-    if exist app.jar del app.jar
+    if exist "%BIN_DIR%" rmdir /s /q "%BIN_DIR%"
+    if exist %APP_JAR% del %APP_JAR%
+    if exist "%BUILD_TIMESTAMP%" del "%BUILD_TIMESTAMP%"
     echo Clean complete.
+    call :timestamp "Clean Completed"
     pause
     goto menu
-)else if "%choice%"==":run" (
-    echo.
+
+) else if "%choice%"==":run" (
+    call :timestamp "Run Started"
     echo Building Project...
-    if not exist bin mkdir bin
-    :: Recursively list all Java files in src and compile them
-    dir /b /s src\*.java > sources.txt
-    javac --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.fxml -d bin @sources.txt
+    if not exist "%BIN_DIR%" mkdir "%BIN_DIR%"
+    dir /b /s "%SRC_DIR%\*.java" > sources.txt
+    javac %JAVAC_OPTIONS% --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.fxml -d "%BIN_DIR%" @sources.txt 2>> %ERROR_LOG%
     if errorlevel 1 (
-        echo Build failed.
+        echo Build failed. Check %ERROR_LOG% for details.
+        call :timestamp "Build Failed"
         pause
     ) else (
         echo Build succeeded.
-        echo.
+        call :timestamp "Build Succeeded"
         echo Running Project...
-        java --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.fxml -cp bin;%IMGUI_LIB%\* Main
+        :: The classpath includes both the bin folder and all jars in the ImGui library folder
+        java --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.fxml -cp "%BIN_DIR%;%IMGUI_LIB%\*" %MAIN_CLASS%
+        call :timestamp "Run Completed"
         pause
     )
     goto menu
+
+) else if "%choice%"==":help" (
+    call :displayHelp
+    goto menu
+
 ) else if "%choice%"==":exit" (
-    echo.
     echo Exiting...
     exit /b 0
+
 ) else (
-    echo.
     echo Invalid choice. Please select a valid option.
     pause
     goto menu
 )
+
+:: =======================================================
+:: Help Function
+:: =======================================================
+:displayHelp
+cls
+echo =====================================
+echo                 Help
+echo =====================================
+echo :build   - Compiles the project. Performs an incremental build by
+echo            checking if any .java file has been modified since the
+echo            last build (using a rudimentary timestamp check).
+echo :jar     - Packages the compiled classes into a jar file with a
+echo            manifest specifying the main class. (Dependencies are not
+echo            bundled; see packaging enhancements.)
+echo :clean   - Removes build artifacts (bin folder, jar file, and build timestamp).
+echo :run     - Builds (if necessary) and runs the project, including JavaFX
+echo            and ImGui libraries.
+echo :help    - Displays this help message.
+echo :exit    - Exits the script.
+echo.
+pause
+goto menu
+
+:: =======================================================
+:: Timestamp Logging Function
+:: =======================================================
+:timestamp
+:: Usage: call :timestamp "Your message here"
+echo [%time%] %~1
+goto :eof
