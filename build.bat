@@ -10,6 +10,7 @@ set "MAIN_CLASS=Main"
 set "APP_JAR=app.jar"
 set "SRC_DIR=src"
 set "BIN_DIR=bin"
+set "DOCS_DIR=docs"
 set "BUILD_TIMESTAMP=build.timestamp"
 set "ERROR_LOG=error.log"
 
@@ -55,10 +56,11 @@ echo :build   Build Project (Incremental)
 echo :jar     Create Jar (with manifest for dependencies)
 echo :clean   Clean Build Artifacts
 echo :run     Run Project
+echo :javadoc Generate Javadoc Documentation
 echo :help    Show Help
 echo :exit    Exit
 echo.
-set /p choice="Please choose an option (:build, :jar, :clean, :run, :help, :exit): "
+set /p choice="Please choose an option (:build, :jar, :clean, :run, :javadoc, :help, :exit): "
 
 if "%choice%"==":build" (
     call :timestamp "Starting Build"
@@ -129,6 +131,7 @@ if "%choice%"==":build" (
     if exist "%BIN_DIR%" rmdir /s /q "%BIN_DIR%"
     if exist %APP_JAR% del %APP_JAR%
     if exist "%BUILD_TIMESTAMP%" del "%BUILD_TIMESTAMP%"
+    if exist "%DOCS_DIR%" rmdir /s /q "%DOCS_DIR%"
     echo Clean complete.
     call :timestamp "Clean Completed"
     pause
@@ -151,6 +154,24 @@ if "%choice%"==":build" (
         :: The classpath includes both the bin folder and all jars in the ImGui library folder
         java --module-path "%JAVAFX_LIB%" --add-modules javafx.controls,javafx.fxml -cp "%BIN_DIR%;%IMGUI_LIB%\*" %MAIN_CLASS%
         call :timestamp "Run Completed"
+        pause
+    )
+    goto menu
+
+) else if "%choice%"==":javadoc" (
+    call :timestamp "Javadoc Generation Started"
+    echo Generating Javadoc...
+    :: Create the docs directory if it does not exist
+    if not exist "%DOCS_DIR%" mkdir "%DOCS_DIR%"
+    :: Generate Javadoc from the source files, including all subpackages.
+    javadoc -d "%DOCS_DIR%" -sourcepath "%SRC_DIR%" -subpackages . 2>> %ERROR_LOG%
+    if errorlevel 1 (
+        echo Javadoc generation failed. Check %ERROR_LOG% for details.
+        call :timestamp "Javadoc Generation Failed"
+        pause
+    ) else (
+        echo Javadoc generation succeeded.
+        call :timestamp "Javadoc Generation Succeeded"
         pause
     )
     goto menu
@@ -183,9 +204,11 @@ echo            last build (using a rudimentary timestamp check).
 echo :jar     - Packages the compiled classes into a jar file with a
 echo            manifest specifying the main class. (Dependencies are not
 echo            bundled; see packaging enhancements.)
-echo :clean   - Removes build artifacts (bin folder, jar file, and build timestamp).
+echo :clean   - Removes build artifacts (bin folder, jar file, build timestamp, and docs).
 echo :run     - Builds (if necessary) and runs the project, including JavaFX
 echo            and ImGui libraries.
+echo :javadoc - Generates Javadoc documentation from the source files and
+echo            outputs it to the "docs" directory.
 echo :help    - Displays this help message.
 echo :exit    - Exits the script.
 echo.
