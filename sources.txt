@@ -1,1 +1,2 @@
 C:\Users\Fynn\Projects\tiny-java-3d-render\src\Main.java
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java

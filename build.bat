@@ -4,8 +4,8 @@ setlocal enabledelayedexpansion
 :: =======================================================
 :: Configuration Variables
 :: =======================================================
-set "JAVAFX_LIB=C:\Users\Fynn\Projects\tiny-java-3d-render\lib\javafx-sdk-17.0.14\lib"
-set "IMGUI_LIB=C:\Users\Fynn\Projects\tiny-java-3d-render\lib\dear_imgui\java-libraries"
+set "JAVAFX_LIB=lib\javafx-sdk-17.0.14\lib"
+set "IMGUI_LIB=lib\dear_imgui\java-libraries"
 set "MAIN_CLASS=Main"
 set "APP_JAR=app.jar"
 set "SRC_DIR=src"
@@ -161,10 +161,12 @@ if "%choice%"==":build" (
 ) else if "%choice%"==":javadoc" (
     call :timestamp "Javadoc Generation Started"
     echo Generating Javadoc...
+    del docs\
     :: Create the docs directory if it does not exist
     if not exist "%DOCS_DIR%" mkdir "%DOCS_DIR%"
-    :: Generate Javadoc from the source files, including all subpackages.
-    javadoc -d "%DOCS_DIR%" -sourcepath "%SRC_DIR%" -subpackages . 2>> %ERROR_LOG%
+    :: Generate Javadoc from the source files, including all subpackages
+    :: Ensure to include the JavaFX and ImGui libraries in the classpath for Javadoc generation
+    javadoc -d docs -sourcepath src src\Main.java --module-path lib\javafx-sdk-17.0.14\lib --add-modules javafx.controls,javafx.fxml @sources.txt 2>> %ERROR_LOG%
     if errorlevel 1 (
         echo Javadoc generation failed. Check %ERROR_LOG% for details.
         call :timestamp "Javadoc Generation Failed"
@@ -183,7 +185,10 @@ if "%choice%"==":build" (
 ) else if "%choice%"==":exit" (
     echo Exiting...
     exit /b 0
-
+) else if "%choice%"==":openjavadoc" (
+    echo Opening Javadoc...
+    start docs\index.html
+    goto menu
 ) else (
     echo Invalid choice. Please select a valid option.
     pause
@@ -209,6 +214,7 @@ echo :run     - Builds (if necessary) and runs the project, including JavaFX
 echo            and ImGui libraries.
 echo :javadoc - Generates Javadoc documentation from the source files and
 echo            outputs it to the "docs" directory.
+echo :openjavadoc - Opens the Javadoc documentation in a web browser.
 echo :help    - Displays this help message.
 echo :exit    - Exits the script.
 echo.
