@@ -139,3 +139,177 @@ docs\index.html wird generiert...
 docs\help-doc.html wird generiert...
 3 Fehler
 12 Warnungen
+Quelldatei src\Main.java wird geladen...
+Quelldatei C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java wird geladen...
+Javadoc-Informationen werden erstellt...
+Index für alle Packages und Klassen wird erstellt...
+Standard-Doclet-Version 21.0.3+9-LTS
+Baum für alle Packages und Klassen wird erstellt...
+src\Main.java:47: Warnung: Keine Hauptbeschreibung
+ * @ingroup rendering_group
+   ^
+src\Main.java:47: Fehler: unbekanntes Tag: ingroup
+ * @ingroup rendering_group
+   ^
+src\Main.java:48: Fehler: unbekanntes Tag: brief
+ * @brief Main application class for 3D rendering
+   ^
+src\Main.java:49: Fehler: unbekanntes Tag: details
+ * @details Handles UI setup and rendering pipeline. Provides:
+   ^
+src\Main.java:54: Fehler: unbekanntes Tag: par
+ * @par Example:
+   ^
+src\Main.java:55: Fehler: Falsche Verwendung von Inlinetag
+ * @code
+       ^
+docs\Main.html wird generiert...
+src\Main.java:62: Warnung: Verwendung von Standardkonstruktor, der keinen Kommentar bereitstellt
+public class Main extends Application {
+       ^
+docs\Main.Matrix3.html wird generiert...
+docs\Main.Triangle.html wird generiert...
+docs\Main.Vertex.html wird generiert...
+docs\SimpleSquareRendering.html wird generiert...
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:8: Warnung: kein Kommentar
+public class SimpleSquareRendering extends JPanel implements ActionListener {
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:20: Warnung: kein Kommentar
+    public SimpleSquareRendering() {
+           ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:77: Warnung: kein Kommentar
+    public static void main(String[] args) {
+                       ^
+docs\package-summary.html wird generiert...
+docs\package-tree.html wird generiert...
+docs\serialized-form.html wird generiert...
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:12: Warnung: Keine Hauptbeschreibung
+     * @param angleX Winkel der X-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:12: Fehler: ungültige Verwendung von @param
+     * @param angleX Winkel der X-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:13: Fehler: ungültige Verwendung von @param
+     * @param angleY Winkel der Y-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:14: Fehler: ungültige Verwendung von @param
+     * @param angleZ Winkel der Z-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:12: Warnung: Tag @param kann nicht in field-Dokumentation verwendet werden. Es kann nur in folgenden Dokumentationstypen verwendet werden: class/interface, constructor, method.
+     * @param angleX Winkel der X-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:13: Warnung: Tag @param kann nicht in field-Dokumentation verwendet werden. Es kann nur in folgenden Dokumentationstypen verwendet werden: class/interface, constructor, method.
+     * @param angleY Winkel der Y-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:14: Warnung: Tag @param kann nicht in field-Dokumentation verwendet werden. Es kann nur in folgenden Dokumentationstypen verwendet werden: class/interface, constructor, method.
+     * @param angleZ Winkel der Z-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:17: Warnung: kein Kommentar
+    private int angleY = 0;
+                ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:18: Warnung: kein Kommentar
+    private int angleZ = 0;
+                ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:10: Warnung: kein Kommentar
+    private Cube cube;
+                 ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:9: Warnung: kein Kommentar
+    private Timer timer;
+                  ^
+docs\overview-tree.html wird generiert...
+Index für alle Klassen wird erstellt...
+docs\allclasses-index.html wird generiert...
+docs\allpackages-index.html wird generiert...
+docs\index-all.html wird generiert...
+docs\search.html wird generiert...
+docs\index.html wird generiert...
+docs\help-doc.html wird generiert...
+8 Fehler
+13 Warnungen
+Quelldatei src\Main.java wird geladen...
+Quelldatei C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java wird geladen...
+Javadoc-Informationen werden erstellt...
+Index für alle Packages und Klassen wird erstellt...
+Standard-Doclet-Version 21.0.3+9-LTS
+Baum für alle Packages und Klassen wird erstellt...
+src\Main.java:47: Warnung: Keine Hauptbeschreibung
+ * @ingroup rendering_group
+   ^
+src\Main.java:47: Fehler: unbekanntes Tag: ingroup
+ * @ingroup rendering_group
+   ^
+src\Main.java:48: Fehler: unbekanntes Tag: brief
+ * @brief Main application class for 3D rendering
+   ^
+src\Main.java:49: Fehler: unbekanntes Tag: details
+ * @details Handles UI setup and rendering pipeline. Provides:
+   ^
+src\Main.java:54: Fehler: unbekanntes Tag: par
+ * @par Example:
+   ^
+src\Main.java:55: Fehler: Falsche Verwendung von Inlinetag
+ * @code
+       ^
+docs\Main.html wird generiert...
+src\Main.java:62: Warnung: Verwendung von Standardkonstruktor, der keinen Kommentar bereitstellt
+public class Main extends Application {
+       ^
+docs\Main.Matrix3.html wird generiert...
+docs\Main.Triangle.html wird generiert...
+docs\Main.Vertex.html wird generiert...
+docs\SimpleSquareRendering.html wird generiert...
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:8: Warnung: kein Kommentar
+public class SimpleSquareRendering extends JPanel implements ActionListener {
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:20: Warnung: kein Kommentar
+    public SimpleSquareRendering() {
+           ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:77: Warnung: kein Kommentar
+    public static void main(String[] args) {
+                       ^
+docs\package-summary.html wird generiert...
+docs\package-tree.html wird generiert...
+docs\serialized-form.html wird generiert...
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:12: Warnung: Keine Hauptbeschreibung
+     * @param angleX Winkel der X-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:12: Fehler: ungültige Verwendung von @param
+     * @param angleX Winkel der X-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:13: Fehler: ungültige Verwendung von @param
+     * @param angleY Winkel der Y-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:14: Fehler: ungültige Verwendung von @param
+     * @param angleZ Winkel der Z-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:12: Warnung: Tag @param kann nicht in field-Dokumentation verwendet werden. Es kann nur in folgenden Dokumentationstypen verwendet werden: class/interface, constructor, method.
+     * @param angleX Winkel der X-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:13: Warnung: Tag @param kann nicht in field-Dokumentation verwendet werden. Es kann nur in folgenden Dokumentationstypen verwendet werden: class/interface, constructor, method.
+     * @param angleY Winkel der Y-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:14: Warnung: Tag @param kann nicht in field-Dokumentation verwendet werden. Es kann nur in folgenden Dokumentationstypen verwendet werden: class/interface, constructor, method.
+     * @param angleZ Winkel der Z-Achse
+       ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:17: Warnung: kein Kommentar
+    private int angleY = 0;
+                ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:18: Warnung: kein Kommentar
+    private int angleZ = 0;
+                ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:10: Warnung: kein Kommentar
+    private Cube cube;
+                 ^
+C:\Users\Fynn\Projects\tiny-java-3d-render\src\SimpleSquareRendering.java:9: Warnung: kein Kommentar
+    private Timer timer;
+                  ^
+docs\overview-tree.html wird generiert...
+Index für alle Klassen wird erstellt...
+docs\allclasses-index.html wird generiert...
+docs\allpackages-index.html wird generiert...
+docs\index-all.html wird generiert...
+docs\search.html wird generiert...
+docs\index.html wird generiert...
+docs\help-doc.html wird generiert...
+8 Fehler
+13 Warnungen

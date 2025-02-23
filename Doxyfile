@@ -1,0 +1,12 @@
+# Minimal Doxyfile configuration
+PROJECT_NAME           = "3D Renderer"
+PROJECT_NUMBER         = 1.0
+OUTPUT_DIRECTORY       = docs
+INPUT                  = .
+FILE_PATTERNS          = *.java
+RECURSIVE              = YES
+GENERATE_LATEX         = NO
+GENERATE_HTML          = YES
+JAVADOC_AUTOBRIEF     = YES
+QT_AUTOBRIEF          = YES
+ALWAYS_DETAILED_SEC   = YES

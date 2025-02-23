@@ -19,6 +19,20 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/** 
+ * @file Main.java
+ * @brief Main class for 3D rendering application
+ * @details Renders either a sphere or cube with interactive controls.
+ * @author Fynn
+ * @date 23-02-2025
+ * @version 1.0
+ */
+
+/**
+ * @defgroup rendering_group 3D Rendering
+ * @brief Contains all classes related to 3D rendering
+ */
+
 /**
  * Hauptklasse der JavaFX-Anwendung, die entweder eine 3D-Sphäre oder einen 3D-Würfel rendert.
  * <p>
@@ -29,27 +43,42 @@ import java.util.Arrays;
  * der die 3D-Objekte als Dreiecksnetz (Mesh) mithilfe eines Z-Buffers und baryzentrischer
  * Koordinaten zeichnet.
  */
+ /**
+ * @ingroup rendering_group
+ * @brief Main application class for 3D rendering
+ * @details Handles UI setup and rendering pipeline. Provides:
+ * - Rotation controls
+ * - Color adjustments
+ * - Shape switching between sphere and cube
+ * 
+ * @par Example:
+ * @code
+ * public static void main(String[] args) {
+ *     launch(args);
+ * }
+ * @endcode
+ */
 @SuppressWarnings("unused")
 public class Main extends Application {
 
     // Rotationswinkel in Radiant:
     // rotationX steuert die Drehung um die Y-Achse (Heading, horizontal)
     // rotationY steuert die Drehung um die X-Achse (Pitch, vertikal)
-    private double rotationX = 0;
-    private double rotationY = 0;
+    public double rotationX = 0;
+    public double rotationY = 0;
 
     // Farbe des zu rendernden Objekts, standardmäßig Weiß.
-    private Color sphereColor = Color.WHITE;
+    public Color sphereColor = Color.WHITE;
 
     // Letzte bekannte Mausposition; wird genutzt, um die Änderung der Rotationswinkel per Drag & Drop zu berechnen.
-    private double lastX = 0, lastY = 0;
+    public double lastX = 0, lastY = 0;
     
     // Flag, das bestimmt, welches Objekt gerendert wird:
     // true: Sphäre; false: Würfel.
-    private boolean renderSphere = true;
+    public boolean renderSphere = true;
     
     // Die Zeichenfläche (Canvas), auf der das 3D-Objekt gerendert wird.
-    private Canvas canvas;
+    public Canvas canvas;
 
     /**
      * Entry Point der JavaFX-Anwendung.
@@ -163,7 +192,7 @@ public class Main extends Application {
      * @param initial Der Startwert des Sliders.
      * @return Den konfigurierten Slider.
      */
-    private Slider createColorSlider(int initial) {
+    public Slider createColorSlider(int initial) {
         Slider slider = new Slider(0, 255, initial);
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
@@ -178,7 +207,7 @@ public class Main extends Application {
      * Beim Drücken der Maus wird die Startposition gespeichert. Beim Ziehen wird anhand der
      * Änderung der Mausposition die Drehung (Heading und Pitch) des 3D-Objekts angepasst.
      */
-    private void addMouseHandlers() {
+    public void addMouseHandlers() {
         canvas.setOnMousePressed((MouseEvent e) -> {
             lastX = e.getX();
             lastY = e.getY();
@@ -219,7 +248,7 @@ public class Main extends Application {
      *   <li>Zeichnen des finalen Bildes auf die Canvas.</li>
      * </ol>
      */
-    private void draw() {
+    public void draw() {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
 
@@ -366,7 +395,7 @@ public class Main extends Application {
      * @param value Der zu beschränkende Wert.
      * @return Der auf den Bereich [0, 1] begrenzte Wert.
      */
-    private static double clamp(double value) {
+    public static double clamp(double value) {
         return Math.max(0, Math.min(1, value));
     }
 
@@ -416,7 +445,7 @@ public class Main extends Application {
      *
      * @return Eine Liste von Dreiecken, die alle Seiten des Würfels abdecken.
      */
-    private ArrayList<Triangle> getCubeTriangles() {
+    public ArrayList<Triangle> getCubeTriangles() {
         ArrayList<Triangle> cubeTris = new ArrayList<>();
         // Definiere die 8 Eckpunkte eines Würfels
         Vertex v0 = new Vertex(-100, -100, -100);

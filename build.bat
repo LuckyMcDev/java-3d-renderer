@@ -189,6 +189,15 @@ if "%choice%"==":build" (
     echo Opening Javadoc...
     start docs\index.html
     goto menu
+) else if "%choice%"==":opendoxygen" (
+    echo Opening DoxyGen...
+    start docs\html\index.html
+    goto menu
+) else if "%choice%"==":doxygen" (
+    echo Generating doxygen...
+    doxygen
+    goto menu
+
 ) else (
     echo Invalid choice. Please select a valid option.
     pause
