@@ -13,3 +13,13 @@
 1. Run Main.bat
 2. press 1 then enter
 3. input any of the given commands.
+
+
+
+
+
+
+
+
+
+fuck you NullPointerExeption
